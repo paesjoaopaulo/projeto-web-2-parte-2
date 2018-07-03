@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Album;
+use App\Http\Resources\PhotoResource;
 use App\Photo;
 
 use Illuminate\Http\Request;
@@ -17,7 +18,7 @@ class ApiPhotoController extends Controller
      */
     public function index(Album $album)
     {
-        return $album->photos;
+        return PhotoResource::collection($album->photos);
     }
 
 
@@ -29,7 +30,7 @@ class ApiPhotoController extends Controller
      */
     public function store(Request $request)
     {
-        return Photo::create($request->all());
+        return new PhotoResource(Photo::create($request->all()));
     }
 
     /**
@@ -40,7 +41,7 @@ class ApiPhotoController extends Controller
      */
     public function show(Album $album, Photo $photo)
     {
-        return $album->photos()->findOrFail($photo);
+        return new PhotoResource($album->photos()->findOrFail($photo));
     }
 
     /**
@@ -53,7 +54,7 @@ class ApiPhotoController extends Controller
     public function update(Request $request, Album $album, Photo $photo)
     {
         $photo = $album->photos()->findOrFail($photo);
-        return $photo->update($request->all());
+        return new PhotoResource($photo->update($request->all()));
     }
 
     /**

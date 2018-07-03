@@ -17,10 +17,9 @@ class CreateCommentsTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->string('description');
+            $table->string('author_name');
             $table->integer('album_id')->unsigned();
             $table->foreign('album_id')->references('id')->on('albums');
-            $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

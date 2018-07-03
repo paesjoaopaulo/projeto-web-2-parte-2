@@ -10,14 +10,16 @@
 
     <link href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://getbootstrap.com/docs/4.0/examples/jumbotron/jumbotron.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css">
+
+    @stack('styles')
+    <link href="{{asset('css/style.css')}}" rel="stylesheet">
 </head>
 
 <body>
 
-<div id="loading"></div>
-
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <a class="navbar-brand" href="#">iMagenTool</a>
+    <a class="navbar-brand" href="{{route('public.home')}}">iMagenTool</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
             aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -26,18 +28,29 @@
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="#">Home</a>
+                <a class="nav-link" href="{{route('public.home')}}">Home</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{route('albums.index')}}">Albums</a>
-            </li>
+            @auth()
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">Albums</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown01">
+                        <a class="dropdown-item" href="{{route('albums.create')}}">Novo</a>
+                        <a class="dropdown-item" href="{{route('albums.index')}}">Todos</a>
+                    </div>
+                </li>
+            @endauth
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown"
-                   aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">Account</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
+                    @guest
+                        <a class="dropdown-item" href="{{route('login')}}">Login</a>
+                        <a class="dropdown-item" href="{{route('register')}}">Register</a>
+                    @endguest
+                    @auth
+                        <a class="dropdown-item" href="{{route('logout')}}">Logout</a>
+                    @endauth
                 </div>
             </li>
         </ul>
@@ -45,22 +58,9 @@
 </nav>
 
 <main role="main">
-
-    <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="jumbotron">
-        <div class="container">
-            <h1 class="display-3">Hello, world!</h1>
-            <p>This is a template for a simple marketing or informational website. It includes a large callout called a
-                jumbotron and three supporting pieces of content. Use it as a starting point to create something more
-                unique.</p>
-            <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
-        </div>
-    </div>
-
+    <div id="loading" style="display: none;"></div>
     <div class="container">
-        <h2>Albums</h2>
-        <ul class="list-group" id="albums">
-        </ul>
+        @yield('content')
     </div>
 
 </main>
@@ -73,6 +73,8 @@
 <script src="https://getbootstrap.com/docs/4.0/assets/js/vendor/popper.min.js"></script>
 <script src="https://getbootstrap.com/docs/4.0/dist/js/bootstrap.min.js"></script>
 <script src="{{asset('js/RESTRequest.js')}}"></script>
-<script src="{{asset('js/albums.index.js')}}"></script>
+
+@stack('scripts')
+
 </body>
 </html>

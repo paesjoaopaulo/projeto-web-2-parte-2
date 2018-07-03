@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Album;
+use App\Http\Resources\AlbumResource;
+use App\Photo;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -15,7 +17,7 @@ class ApiAlbumController extends Controller
      */
     public function index()
     {
-        return Album::all();
+        return AlbumResource::collection(Album::all());
     }
 
 
@@ -27,7 +29,12 @@ class ApiAlbumController extends Controller
      */
     public function store(Request $request)
     {
-        return Album::create($request->all());
+        $album = Album::create($request->only(['title', 'description']));
+        foreach ($request->get('photo') as $photo) {
+            $photos[] = new Photo(['url' => $photo['url'], 'description' => $photo['description']]);
+        }
+        $album->photos()->saveMany($photos);
+        return new AlbumResource($album);
     }
 
     /**
@@ -38,7 +45,7 @@ class ApiAlbumController extends Controller
      */
     public function show(Album $album)
     {
-        return $album;
+        return new AlbumResource($album);
     }
 
     /**
@@ -50,7 +57,8 @@ class ApiAlbumController extends Controller
      */
     public function update(Request $request, Album $album)
     {
-        return $album->update($request->all());
+        $album->update($request->all());
+        return new AlbumResource($album);
     }
 
     /**

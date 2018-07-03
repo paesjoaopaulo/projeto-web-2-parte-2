@@ -8,6 +8,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::name('api.')->group(function () {
     Route::resource('albums/{album}/photos', 'Api\ApiPhotoController')->only(['index', 'store', 'show', 'update', 'destroy']);
-    Route::resource('albums/{album}/comments', 'Api\ApiCommentController')->only(['index', 'store', 'show', 'update', 'destroy']);
+    Route::resource('albums/{album}/comments', 'Api\ApiCommentController')->only(['store']);
     Route::resource('albums', 'Api\ApiAlbumController')->only(['index', 'store', 'show', 'update', 'destroy']);
 });

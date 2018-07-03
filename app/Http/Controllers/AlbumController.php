@@ -24,7 +24,7 @@ class AlbumController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.albums.create');
     }
 
     /**
@@ -46,7 +46,7 @@ class AlbumController extends Controller
      */
     public function show(Album $album)
     {
-        //
+        return view('public.album');
     }
 
     /**

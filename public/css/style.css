@@ -1,6 +1,29 @@
 #loading {
-    background-color: #004085;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background: #fff url("/images/loader.gif") no-repeat center center;
     color: #fff;
     width: 100%;
     height: 100%;
+    z-index: 9999;
+    opacity: 0.96;
+    overflow-y: hidden;
+}
+
+.card {
+    margin: 5px;
+}
+
+#albums {
+    width: 100%;
+    height: 100%;
+}
+
+#albums img:hover {
+    filter: gray(100);
+}
+
+img {
+    transition: all 0.5s linear;
 }
